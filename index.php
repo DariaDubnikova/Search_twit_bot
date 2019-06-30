@@ -17,8 +17,13 @@
             $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
         }
         if ($text == "/sayhello") {
-            $reply = "Привет, ". $name;
-            $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]); 
+            if (!empty($name)) {
+                $reply = "Привет, ". $name;
+                $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, ]); 
+            } else {
+                $reply = "Привет, незнакомец";
+                $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, ]); 
+            }
         }  
     }
 ?>
