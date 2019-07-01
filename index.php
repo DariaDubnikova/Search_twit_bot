@@ -22,7 +22,18 @@
                 $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, ]); 
             }
         } elseif ($text == "info API") {
-            $reply = file_get_contents('http://www.example.com/');
+            $opts = array(
+  'http'=>array(
+    'method'=>"GET",
+    'header'=>"Accept-language: en\r\n" .
+              "Cookie: foo=bar\r\n"
+  )
+);
+
+$context = stream_context_create($opts);
+
+// Открываем файл с помощью установленных выше HTTP-заголовков
+$reply = file_get_contents('http://www.example.com/', false, $context);
             $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, ]);
          }  
     }
