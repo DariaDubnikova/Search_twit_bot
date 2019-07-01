@@ -13,8 +13,7 @@
          if ($text == "/start") {
             $reply = "Добро пожаловать в бота!";
             $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply ]);
-        }
-        if ($text == "/sayhello") {
+        } elseif ($text == "/sayhello") {
             if (!empty($name)) {
                 $reply = "Привет, ". $name;
                 $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, ]); 
@@ -22,6 +21,9 @@
                 $reply = "Привет, незнакомец";
                 $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, ]); 
             }
-        }  
+        } elseif ($text == "info API") {
+            $reply = file_get_contents('http://www.example.com/');
+            $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, ]);
+         }  
     }
 ?>
