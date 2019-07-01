@@ -8,13 +8,11 @@
     $text = $result["message"]["text"]; //Текст сообщения
     $chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
     $name = $result["message"]["from"]["username"]; //Юзернейм пользователя
-    $keyboard = [];
 
     if($text){
          if ($text == "/start") {
             $reply = "Добро пожаловать в бота!";
-            $reply_markup = $telegram->replyKeyboardMarkup([ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ]);
-            $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
+            $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply ]);
         }
         if ($text == "/sayhello") {
             if (!empty($name)) {
