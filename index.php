@@ -42,11 +42,9 @@
             ];
             $url = $baseUrl . http_build_query($params);
             
-        	$reply = $url;
         	$telegram->sendMessage([
-                'chat_id' => $chat_id, 
-             //   'parse_mode'=> 'HTML', 
-                'text' => $reply ]);
+                'chat_id' => $chat_id,
+                'text' => $url ]);
          }
     }
 ?>
