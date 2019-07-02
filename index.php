@@ -50,7 +50,7 @@
             
         	$telegram->sendAudio([
                 'chat_id' => $chat_id,
-                'audio' => $output 
+                'audio' => $url 
             ]);
          }
     }
