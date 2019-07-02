@@ -12,20 +12,27 @@
     if($text){
          if ($text == "/start") {
             $reply = "Добро пожаловать в бота!";
-            $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply ]);
+            $telegram->sendMessage([ 
+                'chat_id' => $chat_id, 
+                'text' => $reply 
+            ]);
         } elseif ($text == "/sayhello") {
             if (!empty($name)) {
                 $reply = "Привет, ". $name;
-                $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, ]); 
+                $telegram->sendMessage([ 
+                    'chat_id' => $chat_id, 
+                    'text' => $reply, 
+                ]); 
             } else {
                 $reply = "Привет, незнакомец";
-                $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, ]); 
+                $telegram->sendMessage([ 
+                    'chat_id' => $chat_id, 
+                    'text' => $reply, ]); 
             }
         } else{
             
             $baseUrl = 'http://api.voicerss.org/?';
-             
-            $text = str_replace(' ','%20',$text); 
+            $text = str_replace(' ','',$text); 
              
             $params = [
                 'key'=> 'b2da3917c24d458fbb6009689f2dfc9b',
@@ -36,7 +43,10 @@
             $url = $baseUrl . http_build_query($params);
             
         	$reply = $url;
-        	$telegram->sendMessage([ 'chat_id' => $chat_id, 'parse_mode'=> 'HTML', 'text' => $reply ]);
+        	$telegram->sendMessage([ 
+                'chat_id' => $chat_id, 
+             //   'parse_mode'=> 'HTML', 
+                'text' => $reply ]);
          }
     }
 ?>
