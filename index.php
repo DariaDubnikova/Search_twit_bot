@@ -25,7 +25,7 @@
             
             $baseUrl = 'http://api.voicerss.org/?';
              
-            $text = str_replace(' ','',$text); 
+            $text = str_replace(' ','%20',$text); 
              
             $params = [
                 'key'=> 'b2da3917c24d458fbb6009689f2dfc9b',
