@@ -31,7 +31,6 @@
                     'text' => $reply, ]); 
             }
         } else{
-            
             $baseUrl = 'http://api.voicerss.org/?';
             $text = str_replace(' ','',$text); 
              
@@ -41,11 +40,22 @@
                 'src'=> $text, 
                 'c'=> 'mp3'
             ];
-            $url = $baseUrl . http_build_query($params);
+            $url = $baseUrl . http_build_query($params); 
+             
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_NOBODY, 0);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
+            $output = curl_exec($ch);
+            curl_close($ch);
             
-        	$telegram->sendMessage([
+        	$telegram->sendAudio([
                 'chat_id' => $chat_id,
-                'text' => $url ]);
+                'audio' => $output 
+            ]);
          }
     }
 ?>
