@@ -16,11 +16,6 @@
     $chat_id = $result["message"]["chat"]["id"]; 
     $name = $result["message"]["from"]["username"]; 
     $keyboard = [["Русский"],["English"]];
-    $russian = 'ru-ru';
-    $english = 'en-us';	
-    
-    $redis->set('русский', $russian); // save lang
-    $redis->set('english', $english);
  
     if($text){
          if ($text == "/start") {
@@ -46,13 +41,14 @@
                     'text' => $reply ]); 
             }
         } elseif ($text == "Русский") {
-             $lang = $redis->get('русский');
-        } elseif ($text == "Русский") {
-             $lang = $redis->get('english');
+             $redis->set($chat_id, 'ru-ru');
+        } elseif ($text == "English") {
+             $redis->set($chat_id, 'en-us');
          } else {
             $baseUrl = 'http://api.voicerss.org/?';
-            $text = str_replace(' ','',$text); 
-
+            $text = str_replace(' ','',$text);
+            
+            $lang = $redis->get($chat_id);
             $lang = $lang ? $lang : 'en-us';
              
             $params = [
