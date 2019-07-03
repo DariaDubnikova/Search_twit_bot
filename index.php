@@ -11,6 +11,11 @@
         'password' => parse_url($_ENV['REDISCLOUD_URL'], PHP_URL_PASS),
     ));
 
+$redis->set('foo', 'bar');
+$value = $redis->get('foo');
+
+error_log($value);
+
     $telegram = new Api('857128399:AAHHVAeKS_31miXbzVh4-1ZSzH2POkh0AyI'); 
     $result = $telegram -> getWebhookUpdates();
     
