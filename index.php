@@ -15,7 +15,7 @@
     $text = $result["message"]["text"];
     $chat_id = $result["message"]["chat"]["id"]; 
     $name = $result["message"]["from"]["username"]; 
-    $keyboard = [];
+    $keyboard = [['Русский']['English']];
     $russian = 'ru-ru';
     $english = 'en-us';	
     
