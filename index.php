@@ -55,7 +55,7 @@
              
             $params = [
                 'key'=> 'b2da3917c24d458fbb6009689f2dfc9b',
-                'hl'=> $lang,
+                'hl'=> 'en-us',
                 'src'=> $text, 
                 'c'=> 'mp3'
             ];
