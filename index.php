@@ -1,11 +1,12 @@
 <?php
     include('vendor/autoload.php'); 
     use Telegram\Bot\Api; 
+    use Predis\Client;
     
-    require 'Predis/Autoloader.php';
-    Predis\Autoloader::register();
+   /* require 'Predis/Autoloader.php';
+    Predis\Autoloader::register();*/
 
-    $redis = new Predis\Client(array(
+    $redis = new Client(array(
         'host' => parse_url($_ENV['REDISCLOUD_URL'], PHP_URL_HOST),
         'port' => parse_url($_ENV['REDISCLOUD_URL'], PHP_URL_PORT),
         'password' => parse_url($_ENV['REDISCLOUD_URL'], PHP_URL_PASS),
