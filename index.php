@@ -8,29 +8,52 @@
     $text = $result["message"]["text"];
     $chat_id = $result["message"]["chat"]["id"]; 
     $name = $result["message"]["from"]["username"]; 
-    $keyboard = [];
+    $keyboard = [["Русский язык"]];
     
     if($text){
          if ($text == "/start") {
             $reply = "Добро пожаловать в бота!";
+            $reply_markup = $telegram->replyKeyboardMarkup([ 
+                'keyboard' => $keyboard, 
+                'resize_keyboard' => true, 
+                'one_time_keyboard' => false ]);
             $telegram->sendMessage([ 
                 'chat_id' => $chat_id, 
-                'text' => $reply 
-            ]);
+                'text' => $reply, 
+                'reply_markup' => $reply_markup ]);
         } elseif ($text == "/sayhello") {
             if (!empty($name)) {
                 $reply = "Привет, ". $name;
                 $telegram->sendMessage([ 
                     'chat_id' => $chat_id, 
-                    'text' => $reply, 
-                ]); 
+                    'text' => $reply ]); 
             } else {
                 $reply = "Привет, незнакомец";
                 $telegram->sendMessage([ 
                     'chat_id' => $chat_id, 
-                    'text' => $reply, ]); 
+                    'text' => $reply ]); 
             }
-        } else{
+        } elseif ($text == "Русский язык") {
+             $reply = "Введите текст";
+                $telegram->sendMessage([ 
+                    'chat_id' => $chat_id, 
+                    'text' => $reply ]);
+             $baseUrl = 'http://api.voicerss.org/?';
+            $text = str_replace(' ','',$text); 
+             
+            $params = [
+                'key'=> 'b2da3917c24d458fbb6009689f2dfc9b',
+                'hl'=> 'ru-ru',
+                'src'=> $text, 
+                'c'=> 'mp3'
+            ];
+            $url = $baseUrl . http_build_query($params); 
+            
+        	$telegram->sendAudio([
+                'chat_id' => $chat_id,
+                'audio' => $url 
+            ]);
+         } else {
             $baseUrl = 'http://api.voicerss.org/?';
             $text = str_replace(' ','',$text); 
              
@@ -41,12 +64,6 @@
                 'c'=> 'mp3'
             ];
             $url = $baseUrl . http_build_query($params); 
-             
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HEADER, true);
-            $output = curl_exec($ch);
-            curl_close($ch);
             
         	$telegram->sendAudio([
                 'chat_id' => $chat_id,
