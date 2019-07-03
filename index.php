@@ -1,21 +1,13 @@
 <?php
     include('vendor/autoload.php'); 
     use Telegram\Bot\Api; 
-    use Predis\Client;
-    
-   /* require 'Predis/Autoloader.php';
-    Predis\Autoloader::register();*/
+    use Predis\Client as PredisClient;
 
-    $redis = new Client(array(
+    $redis = new PredisClient(array(
         'host' => parse_url($_ENV['REDISCLOUD_URL'], PHP_URL_HOST),
         'port' => parse_url($_ENV['REDISCLOUD_URL'], PHP_URL_PORT),
         'password' => parse_url($_ENV['REDISCLOUD_URL'], PHP_URL_PASS),
     ));
-
-$redis->set('foo', 'bar');
-$value = $redis->get('foo');
-
-error_log($value);
 
     $telegram = new Api('857128399:AAHHVAeKS_31miXbzVh4-1ZSzH2POkh0AyI'); 
     $result = $telegram -> getWebhookUpdates();
@@ -24,7 +16,12 @@ error_log($value);
     $chat_id = $result["message"]["chat"]["id"]; 
     $name = $result["message"]["from"]["username"]; 
     $keyboard = [];
+    $russian = 'ru-ru';
+    $english = 'en-us';	
     
+    $redis->set('русский', $russian); // save lang
+    $redis->set('english', $english);
+ 
     if($text){
          if ($text == "/start") {
             $reply = "Добро пожаловать в бота!";
@@ -51,10 +48,14 @@ error_log($value);
         } else {
             $baseUrl = 'http://api.voicerss.org/?';
             $text = str_replace(' ','',$text); 
+            $id_lang = end(explode(" ",$text));
+             
+            $lang = $redis->get($id_lang); // get lang
+            $lang = $lang ? $lang : 'en-us';
              
             $params = [
                 'key'=> 'b2da3917c24d458fbb6009689f2dfc9b',
-                'hl'=> 'en-us',
+                'hl'=> $lang,
                 'src'=> $text, 
                 'c'=> 'mp3'
             ];
