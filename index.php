@@ -54,7 +54,7 @@
             $params = [
                 'key'=> 'b2da3917c24d458fbb6009689f2dfc9b',
                 'hl'=> $lang,
-                'src'=> $text, 
+                'src'=> $text,
                 'c'=> 'mp3'
             ];
             $url = $baseUrl . http_build_query($params); 
