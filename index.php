@@ -45,17 +45,19 @@
                     'chat_id' => $chat_id, 
                     'text' => $reply ]); 
             }
-        } else {
+        } elseif ($text == "Русский") {
+             $lang = $redis->get('русский');
+        } elseif ($text == "Русский") {
+             $lang = $redis->get('english');
+         } else {
             $baseUrl = 'http://api.voicerss.org/?';
             $text = str_replace(' ','',$text); 
-            $id_lang = end(explode(" ",$text));
-             
-            $lang = $redis->get($id_lang); // get lang
+
             $lang = $lang ? $lang : 'en-us';
              
             $params = [
                 'key'=> 'b2da3917c24d458fbb6009689f2dfc9b',
-                'hl'=> 'en-us',
+                'hl'=> $lang,
                 'src'=> $text, 
                 'c'=> 'mp3'
             ];
