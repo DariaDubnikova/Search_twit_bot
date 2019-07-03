@@ -1,5 +1,6 @@
 {
     "require": {
+        "predis/predis": "1.1.1",
         "irazasyed/telegram-bot-sdk": "2.0"
     }
 }
