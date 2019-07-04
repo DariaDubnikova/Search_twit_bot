@@ -12,14 +12,14 @@
     $telegram = new Api('885313182:AAGshWA1PYDU_977cPuHh9BtEgwllFQpUSo'); 
     $result = $telegram -> getWebhookUpdates();
     
-    $text = $result["message"]["text"];
-    $chat_id = $result["message"]["chat"]["id"]; 
-    $name = $result["message"]["from"]["username"]; 
-    $keyboard = [["Русский"],["English"]];
+    $text = $result['message']['text'];
+    $chat_id = $result['message']['chat']['id']; 
+    $name = $result['message']['from']['username']; 
+    $keyboard = [['Русский'],['English']];
  
     if($text){
-         if ($text == "/start") {
-             $reply = "Добро пожаловать в бота!";
+         if ($text == '/start') {
+             $reply = 'Добро пожаловать в бота!';
              $reply_markup = $telegram->replyKeyboardMarkup([ 
                  'keyboard' => $keyboard, 
                  'resize_keyboard' => true, 
@@ -28,21 +28,21 @@
                  'chat_id' => $chat_id, 
                  'text' => $reply, 
                  'reply_markup' => $reply_markup ]);
-         } elseif ($text == "/sayhello") {
+         } elseif ($text == '/sayhello') {
              if (!empty($name)) {
-                 $reply = "Привет, ". $name;
+                 $reply = 'Привет, '. $name;
                  $telegram->sendMessage([ 
                      'chat_id' => $chat_id, 
                      'text' => $reply ]); 
              } else {
-                 $reply = "Привет, незнакомец";
+                 $reply = 'Привет, незнакомец';
                  $telegram->sendMessage([ 
                      'chat_id' => $chat_id, 
                      'text' => $reply ]); 
              }
-         } elseif ($text == "Русский") {
+         } elseif ($text == 'Русский') {
              $redis->set($chat_id, 'ru-ru');
-         } elseif ($text == "English") {
+         } elseif ($text == 'English') {
              $redis->set($chat_id, 'en-us');
          } else {
              $baseUrl = 'http://api.voicerss.org/?';
