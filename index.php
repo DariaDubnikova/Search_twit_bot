@@ -16,10 +16,13 @@
     $chat_id = $result['message']['chat']['id']; 
     $name = $result['message']['from']['username']; 
     $keyboard = [['Русский'],['English']];
+
+    const WELCOME = 'Добро пожаловать в бота! Выберите,пожалуйста, язык и ведите текст, который нужно преобразовать в речь';
+    const START = '/start';
  
-    if($text){
-         if ($text == '/start') {
-             $reply = 'Добро пожаловать в бота!';
+    if ($text){
+         if ($text == START) {
+             $reply = WELCOME;
              $reply_markup = $telegram->replyKeyboardMarkup([ 
                  'keyboard' => $keyboard, 
                  'resize_keyboard' => true, 
