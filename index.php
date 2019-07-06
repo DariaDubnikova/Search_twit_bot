@@ -48,7 +48,7 @@
              $baseUrl = 'http://api.voicerss.org/?';
              $text = str_replace(' ','',$text);
              
-             $lang = $redis->get($chat_id);
+             $lang = $db->get($chat_id);
              $lang = $lang ? $lang : 'en-us';
              
              $params = [
