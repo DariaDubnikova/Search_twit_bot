@@ -3,7 +3,7 @@
     use Telegram\Bot\Api; 
     use Predis\Client as PredisClient;
 
-    $redis = new PredisClient(array(
+    $db = new PredisClient(array(
         'host' => parse_url($_ENV['REDISCLOUD_URL'], PHP_URL_HOST),
         'port' => parse_url($_ENV['REDISCLOUD_URL'], PHP_URL_PORT),
         'password' => parse_url($_ENV['REDISCLOUD_URL'], PHP_URL_PASS),
@@ -41,9 +41,9 @@
                      'text' => $reply ]); 
              }
          } elseif ($text == 'Русский') {
-             $redis->set($chat_id, 'ru-ru');
+             $db->set($chat_id, 'ru-ru');
          } elseif ($text == 'English') {
-             $redis->set($chat_id, 'en-us');
+             $db->set($chat_id, 'en-us');
          } else {
              $baseUrl = 'http://api.voicerss.org/?';
              $text = str_replace(' ','',$text);
