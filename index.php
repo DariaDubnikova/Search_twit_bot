@@ -13,13 +13,21 @@
     $result = $telegram -> getWebhookUpdates();
     
     $text = $result['message']['text'];
-    $chat_id = $result['message']['chat']['id']; 
+    $chatId = $result['message']['chat']['id']; 
     $name = $result['message']['from']['username']; 
     $keyboard = [['Русский'],['English']];
 
-    const WELCOME = 'Добро пожаловать в бота! Выберите,пожалуйста, язык и ведите текст, который нужно преобразовать в речь';
+    const WELCOME = 'Добро пожаловать в бота! Выберите, пожалуйста, язык и ведите текст, который нужно преобразовать в речь';
     const START = '/start';
- 
+    const COMMAND_SAY_HELLO = '/sayhello';
+    const HELLO = 'Привет, ';
+    const HELLO_UNKNOWN = 'Привет, незнакомец';
+  /*  const HELLO = 'Привет, ';
+    const HELLO = 'Привет, ';
+    const HELLO = 'Привет, ';
+    const HELLO = 'Привет, '; */
+
+
     if ($text){
          if ($text == START) {
              $reply = WELCOME;
@@ -28,30 +36,30 @@
                  'resize_keyboard' => true, 
                  'one_time_keyboard' => false ]);
              $telegram->sendMessage([ 
-                 'chat_id' => $chat_id, 
+                 'chat_id' => $chatId, 
                  'text' => $reply, 
                  'reply_markup' => $reply_markup ]);
-         } elseif ($text == '/sayhello') {
+         } elseif ($text == COMMAND_SAY_HELLO) {
              if (!empty($name)) {
-                 $reply = 'Привет, '. $name;
+                 $reply = HELLO . $name;
                  $telegram->sendMessage([ 
-                     'chat_id' => $chat_id, 
+                     'chat_id' => $chatId, 
                      'text' => $reply ]); 
              } else {
-                 $reply = 'Привет, незнакомец';
+                 $reply = HELLO_UNKNOWN;
                  $telegram->sendMessage([ 
-                     'chat_id' => $chat_id, 
+                     'chat_id' => $chatId, 
                      'text' => $reply ]); 
              }
          } elseif ($text == 'Русский') {
-             $db->set($chat_id, 'ru-ru');
+             $db->set($chatId, 'ru-ru');
          } elseif ($text == 'English') {
-             $db->set($chat_id, 'en-us');
+             $db->set($chatId, 'en-us');
          } else {
              $baseUrl = 'http://api.voicerss.org/?';
              $text = str_replace(' ','',$text);
              
-             $lang = $db->get($chat_id);
+             $lang = $db->get($chatId);
              $lang = $lang ? $lang : 'en-us';
              
              $params = [
@@ -63,7 +71,7 @@
              $url = $baseUrl . http_build_query($params); 
              
              $telegram->sendAudio([
-                 'chat_id' => $chat_id,
+                 'chat_id' => $chatId,
                  'audio' => $url 
              ]);
          }
