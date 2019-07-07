@@ -29,31 +29,47 @@
     const API = 'http://api.voicerss.org/?';
     const API_KEY = 'b2da3917c24d458fbb6009689f2dfc9b';
     const FORMAT_AUDIO = 'mp3';
-    const ENG_SPEECH = 'en-us';
+    
+    function sendMessage($reply) {
+        $reply_markup = $telegram->replyKeyboardMarkup([ 
+            'keyboard' => $keyboard, 
+            'resize_keyboard' => true, 
+             'one_time_keyboard' => false ]);
+        $telegram->sendMessage([ 
+            'chat_id' => $chatId, 
+            'text' => $reply, 
+            'reply_markup' => $reply_markup ]);
+    }
 
+  /*  function sendAudio() {
+        $baseUrl = API;
+        $text = str_replace(' ','',$text);
+             
+        $lang = $db->get($chatId);
+        $lang = $lang ? $lang : ENG_SPEECH;
+             
+        $params = [
+            'key'=> API_KEY,
+            'hl'=> $lang,
+            'src'=> $text,
+            'c'=> FORMAT_AUDIO
+        ];
+        $url = $baseUrl . http_build_query($params); 
+             
+        $telegram->sendAudio([
+            'chat_id' => $chatId,
+            'audio' => $url 
+        ]);
+    } */
 
     if ($text){
          if ($text == START) {
-             $reply = WELCOME;
-             $reply_markup = $telegram->replyKeyboardMarkup([ 
-                 'keyboard' => $keyboard, 
-                 'resize_keyboard' => true, 
-                 'one_time_keyboard' => false ]);
-             $telegram->sendMessage([ 
-                 'chat_id' => $chatId, 
-                 'text' => $reply, 
-                 'reply_markup' => $reply_markup ]);
+             sendMessage(WELCOME);
          } elseif ($text == COMMAND_SAY_HELLO) {
              if (!empty($name)) {
-                 $reply = HELLO . $name;
-                 $telegram->sendMessage([ 
-                     'chat_id' => $chatId, 
-                     'text' => $reply ]); 
+                 sendMessage(HELLO . $name);
              } else {
-                 $reply = HELLO_UNKNOWN;
-                 $telegram->sendMessage([ 
-                     'chat_id' => $chatId, 
-                     'text' => $reply ]); 
+                 sendMessage(HELLO_UNKNOWN); 
              }
          } elseif ($text == RUSSIAN) {
              $db->set($chatId, RU_SPEECH);
