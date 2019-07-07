@@ -41,35 +41,14 @@
             'reply_markup' => $reply_markup ]);
     }
 
-  /*  function sendAudio() {
-        $baseUrl = API;
-        $text = str_replace(' ','',$text);
-             
-        $lang = $db->get($chatId);
-        $lang = $lang ? $lang : ENG_SPEECH;
-             
-        $params = [
-            'key'=> API_KEY,
-            'hl'=> $lang,
-            'src'=> $text,
-            'c'=> FORMAT_AUDIO
-        ];
-        $url = $baseUrl . http_build_query($params); 
-             
-        $telegram->sendAudio([
-            'chat_id' => $chatId,
-            'audio' => $url 
-        ]);
-    } */
-
     if ($text){
          if ($text == START) {
-             sendTelegramMessage($reply, $keyboard, $chatId, $telegram);
+             sendTelegramMessage(WELCOME, $keyboard, $chatId, $telegram);
          } elseif ($text == COMMAND_SAY_HELLO) {
              if (!empty($name)) {
-                 sendTelegramMessage($reply, $keyboard, $chatId, $telegram);
+                 sendTelegramMessage(HELLO . $name, $keyboard, $chatId, $telegram);
              } else {
-                 sendTelegramMessage($reply, $keyboard, $chatId, $telegram); 
+                 sendTelegramMessage(HELLO_UNKNOWN, $keyboard, $chatId, $telegram); 
              }
          } elseif ($text == RUSSIAN) {
              $db->set($chatId, RU_SPEECH);
