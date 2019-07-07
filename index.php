@@ -41,6 +41,27 @@
             'reply_markup' => $reply_markup ]);
     }
 
+    function sendSpeech($text, $db, $chatId, $telegram) {
+        $baseUrl = API;
+        $text = str_replace(' ','',$text);
+             
+        $lang = $db->get($chatId);
+        $lang = $lang ? $lang : ENG_SPEECH;
+             
+        $params = [
+            'key'=> API_KEY,
+            'hl'=> $lang,
+            'src'=> $text,
+            'c'=> FORMAT_AUDIO
+        ];
+        $url = $baseUrl . http_build_query($params); 
+             
+        $telegram->sendAudio([
+            'chat_id' => $chatId,
+            'audio' => $url 
+        ]);
+    }
+
     if ($text){
          if ($text == START) {
              sendTelegramMessage(WELCOME, $keyboard, $chatId, $telegram);
@@ -55,24 +76,7 @@
          } elseif ($text == ENGLISH) {
              $db->set($chatId, ENG_SPEECH);
          } else {
-             $baseUrl = API;
-             $text = str_replace(' ','',$text);
-             
-             $lang = $db->get($chatId);
-             $lang = $lang ? $lang : ENG_SPEECH;
-             
-             $params = [
-                 'key'=> API_KEY,
-                 'hl'=> $lang,
-                 'src'=> $text,
-                 'c'=> FORMAT_AUDIO
-             ];
-             $url = $baseUrl . http_build_query($params); 
-             
-             $telegram->sendAudio([
-                 'chat_id' => $chatId,
-                 'audio' => $url 
-             ]);
+             sendSpeech($text, $db, $chatId, $telegram);
          }
     }
     register_shutdown_function(function () {
