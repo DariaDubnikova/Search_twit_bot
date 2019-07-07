@@ -25,7 +25,11 @@
     const RUSSIAN = 'Русский';
     const ENGLISH = 'English';
     const RU_SPEECH = 'ru-ru';
-    const ENG_SPEECH = 'en-us'; 
+    const ENG_SPEECH = 'en-us';
+    const API = 'http://api.voicerss.org/?';
+    const API_KEY = 'b2da3917c24d458fbb6009689f2dfc9b';
+    const FORMAT_AUDIO = 'mp3';
+    const ENG_SPEECH = 'en-us';
 
 
     if ($text){
@@ -56,17 +60,17 @@
          } elseif ($text == ENGLISH) {
              $db->set($chatId, ENG_SPEECH);
          } else {
-             $baseUrl = 'http://api.voicerss.org/?';
+             $baseUrl = API;
              $text = str_replace(' ','',$text);
              
              $lang = $db->get($chatId);
              $lang = $lang ? $lang : ENG_SPEECH;
              
              $params = [
-                 'key'=> 'b2da3917c24d458fbb6009689f2dfc9b',
+                 'key'=> API_KEY,
                  'hl'=> $lang,
                  'src'=> $text,
-                 'c'=> 'mp3'
+                 'c'=> FORMAT_AUDIO
              ];
              $url = $baseUrl . http_build_query($params); 
              
