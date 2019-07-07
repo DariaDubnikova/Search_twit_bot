@@ -30,11 +30,7 @@
     const API_KEY = 'b2da3917c24d458fbb6009689f2dfc9b';
     const FORMAT_AUDIO = 'mp3';
     
-    function sendMessage($reply, $keyboard, $chatId) {
-        $reply_markup = $telegram->replyKeyboardMarkup([ 
-            'keyboard' => $keyboard, 
-            'resize_keyboard' => true, 
-             'one_time_keyboard' => false ]);
+    function sendMessage($reply, $reply_markup, $chatId) {
         $telegram->sendMessage([ 
             'chat_id' => $chatId, 
             'text' => $reply, 
@@ -64,12 +60,16 @@
 
     if ($text){
          if ($text == START) {
-             sendMessage(WELCOME, $keyboard, $chatId);
+             $reply_markup = $telegram->replyKeyboardMarkup([ 
+            'keyboard' => $keyboard, 
+            'resize_keyboard' => true, 
+             'one_time_keyboard' => false ]);
+             sendMessage(WELCOME, $reply_markup, $chatId);
          } elseif ($text == COMMAND_SAY_HELLO) {
              if (!empty($name)) {
-                 sendMessage(HELLO . $name, $keyboard, $chatId);
+                 sendMessage(HELLO . $name, $reply_markup, $chatId);
              } else {
-                 sendMessage(HELLO_UNKNOWN, $keyboard, $chatId); 
+                 sendMessage(HELLO_UNKNOWN, $reply_markup, $chatId); 
              }
          } elseif ($text == RUSSIAN) {
              $db->set($chatId, RU_SPEECH);
