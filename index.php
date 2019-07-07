@@ -63,21 +63,26 @@
     }
 
     if ($text){
-         if ($text == START) {
-             sendTelegramMessage(WELCOME, $keyboard, $chatId, $telegram);
-         } elseif ($text == COMMAND_SAY_HELLO) {
-             if (!empty($name)) {
-                 sendTelegramMessage(HELLO . $name, $keyboard, $chatId, $telegram);
-             } else {
-                 sendTelegramMessage(HELLO_UNKNOWN, $keyboard, $chatId, $telegram); 
-             }
-         } elseif ($text == RUSSIAN) {
-             $db->set($chatId, RU_SPEECH);
-         } elseif ($text == ENGLISH) {
-             $db->set($chatId, ENG_SPEECH);
-         } else {
-             sendSpeech($text, $db, $chatId, $telegram);
-         }
+        switch ($text) {
+            case START:
+                sendTelegramMessage(WELCOME, $keyboard, $chatId, $telegram);
+                break;
+            case COMMAND_SAY_HELLO:
+                if (!empty($name)) {
+                    sendTelegramMessage(HELLO . $name, $keyboard, $chatId, $telegram);
+                } else {
+                    sendTelegramMessage(HELLO_UNKNOWN, $keyboard, $chatId, $telegram); 
+                }
+                break;
+            case RUSSIAN:
+                $db->set($chatId, RU_SPEECH);
+                break;
+            case ENGLISH:
+                $db->set($chatId, ENG_SPEECH);
+                break;
+            default:
+                sendSpeech($text, $db, $chatId, $telegram);
+        }
     }
     register_shutdown_function(function () {
         http_response_code(200);
