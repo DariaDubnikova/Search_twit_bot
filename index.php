@@ -22,10 +22,10 @@
     const COMMAND_SAY_HELLO = '/sayhello';
     const HELLO = 'Привет, ';
     const HELLO_UNKNOWN = 'Привет, незнакомец';
-  /*  const HELLO = 'Привет, ';
-    const HELLO = 'Привет, ';
-    const HELLO = 'Привет, ';
-    const HELLO = 'Привет, '; */
+    const RUSSIAN = 'Русский';
+    const ENGLISH = 'English';
+    const RU_SPEECH = 'ru-ru';
+    const ENG_SPEECH = 'en-us'; 
 
 
     if ($text){
@@ -51,16 +51,16 @@
                      'chat_id' => $chatId, 
                      'text' => $reply ]); 
              }
-         } elseif ($text == 'Русский') {
-             $db->set($chatId, 'ru-ru');
-         } elseif ($text == 'English') {
-             $db->set($chatId, 'en-us');
+         } elseif ($text == RUSSIAN) {
+             $db->set($chatId, RU_SPEECH);
+         } elseif ($text == ENGLISH) {
+             $db->set($chatId, ENG_SPEECH);
          } else {
              $baseUrl = 'http://api.voicerss.org/?';
              $text = str_replace(' ','',$text);
              
              $lang = $db->get($chatId);
-             $lang = $lang ? $lang : 'en-us';
+             $lang = $lang ? $lang : ENG_SPEECH;
              
              $params = [
                  'key'=> 'b2da3917c24d458fbb6009689f2dfc9b',
