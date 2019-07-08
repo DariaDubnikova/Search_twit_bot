@@ -84,6 +84,3 @@
                 sendSpeech($text, $db, $chatId, $telegram);
         }
     }
-    register_shutdown_function(function () {
-        http_response_code(200);
-    });
